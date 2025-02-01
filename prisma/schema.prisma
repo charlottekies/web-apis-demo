@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model address {
+  address_id       Int                @id(map: "pk_address")
+  street_number    String?            @db.VarChar(10)
+  street_name      String?            @db.VarChar(200)
+  city             String?            @db.VarChar(100)
+  country_id       Int?
+  country          country?           @relation(fields: [country_id], references: [country_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_addr_ctry")
+  cust_order       cust_order[]
+  customer_address customer_address[]
+}
+
+model address_status {
+  status_id      Int     @id(map: "pk_addr_status")
+  address_status String? @db.VarChar(30)
+}
+
+model author {
+  author_id   Int           @id(map: "pk_author")
+  author_name String?       @db.VarChar(400)
+  book_author book_author[]
+}
+
+model book {
+  book_id          Int            @id(map: "pk_book")
+  title            String?        @db.VarChar(400)
+  isbn13           String?        @db.VarChar(13)
+  language_id      Int?
+  num_pages        Int?
+  publication_date DateTime?      @db.Date
+  publisher_id     Int?
+  book_language    book_language? @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_book_lang")
+  publisher        publisher?     @relation(fields: [publisher_id], references: [publisher_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_book_pub")
+  book_author      book_author[]
+  order_line       order_line[]
+}
+
+model book_author {
+  book_id   Int
+  author_id Int
+  author    author @relation(fields: [author_id], references: [author_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ba_author")
+  book      book   @relation(fields: [book_id], references: [book_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ba_book")
+
+  @@id([book_id, author_id], map: "pk_bookauthor")
+}
+
+model book_language {
+  language_id   Int     @id(map: "pk_language")
+  language_code String? @db.VarChar(8)
+  language_name String? @db.VarChar(50)
+  book          book[]
+}
+
+model country {
+  country_id   Int       @id(map: "pk_country")
+  country_name String?   @db.VarChar(200)
+  address      address[]
+}
+
+model cust_order {
+  order_id           Int              @id(map: "pk_custorder") @default(autoincrement())
+  order_date         DateTime?        @db.Timestamp(6)
+  customer_id        Int?
+  shipping_method_id Int?
+  dest_address_id    Int?
+  address            address?         @relation(fields: [dest_address_id], references: [address_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_addr")
+  customer           customer?        @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_cust")
+  shipping_method    shipping_method? @relation(fields: [shipping_method_id], references: [method_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_ship")
+  order_history      order_history[]
+  order_line         order_line[]
+}
+
+model customer {
+  customer_id      Int                @id(map: "pk_customer")
+  first_name       String?            @db.VarChar(200)
+  last_name        String?            @db.VarChar(200)
+  email            String?            @db.VarChar(350)
+  cust_order       cust_order[]
+  customer_address customer_address[]
+}
+
+model customer_address {
+  customer_id Int
+  address_id  Int
+  status_id   Int?
+  address     address  @relation(fields: [address_id], references: [address_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ca_addr")
+  customer    customer @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ca_cust")
+
+  @@id([customer_id, address_id], map: "pk_custaddr")
+}
+
+model order_history {
+  history_id   Int           @id(map: "pk_orderhist") @default(autoincrement())
+  order_id     Int?
+  status_id    Int?
+  status_date  DateTime?     @db.Timestamp(6)
+  cust_order   cust_order?   @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_oh_order")
+  order_status order_status? @relation(fields: [status_id], references: [status_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_oh_status")
+}
+
+model order_line {
+  line_id    Int         @id(map: "pk_orderline") @default(autoincrement())
+  order_id   Int?
+  book_id    Int?
+  price      Decimal?    @db.Decimal(5, 2)
+  book       book?       @relation(fields: [book_id], references: [book_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ol_book")
+  cust_order cust_order? @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ol_order")
+}
+
+model order_status {
+  status_id     Int             @id(map: "pk_orderstatus")
+  status_value  String?         @db.VarChar(20)
+  order_history order_history[]
+}
+
+model publisher {
+  publisher_id   Int     @id(map: "pk_publisher")
+  publisher_name String? @db.VarChar(400)
+  book           book[]
+}
+
+model shipping_method {
+  method_id   Int          @id(map: "pk_shipmethod")
+  method_name String?      @db.VarChar(100)
+  cost        Decimal?     @db.Decimal(6, 2)
+  cust_order  cust_order[]
+}
