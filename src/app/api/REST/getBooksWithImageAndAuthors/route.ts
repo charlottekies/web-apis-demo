@@ -1,6 +1,3 @@
-// Next.js API route (App Router format)
-// File: app/api/data/route.js
-
 import { NextResponse } from "next/server";
 import { getAllBooks } from "../../service/bookService";
 

@@ -1,5 +1,3 @@
-// src/api/trpc/booksRouter.ts
-import prisma from '../../../../server/prisma';
 import { procedure, router } from '../../../../trpc/trpc';
 import { getAllAuthors } from '../service/authorService';
 

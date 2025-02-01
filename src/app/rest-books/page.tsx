@@ -13,8 +13,8 @@ const RestBooks = () => {
     async function fetchData() {
       try {
         const response = await fetch("/api/REST/getBooksWithImageAndAuthors");
-        if (!response.ok) throw new Error("Failed to fetch data");
         // optionally handle different HTTP response codes here
+        if (!response.ok) throw new Error("Failed to fetch data");
         const result = await response.json();
         setData(result);
       } catch (err) {

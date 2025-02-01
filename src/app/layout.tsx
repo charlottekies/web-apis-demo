@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getFetch, httpBatchLink, loggerLink } from "@trpc/react-query";
 import superjson from "superjson";
 import { trpc } from "../../utils/trpc";
+import Link from "next/link";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },
@@ -75,7 +76,9 @@ export default function RootLayout({
             <body className="bg-white">
               <header className="fixed top-0 left-0 right-0 z-10 bg-white text-black p-4 shadow-md">
                 <div className="flex justify-between">
-                  <a href="/"><Logo></Logo></a>
+                  <Link href="/">
+                    <Logo />
+                  </Link>
                   <Navbar />
                   <button onClick={toggleSidebar} className="lg:hidden">
                     <Hamburger />

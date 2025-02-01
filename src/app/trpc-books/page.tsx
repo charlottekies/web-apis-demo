@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import BookCard from '@/components/bookCard';
 import { trpc } from '../../../utils/trpc';
 import { Button } from '@mui/material';
-import { Book } from '../types/book';
 
 
 const TRPCBooks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 50;
 
-  const skip = (currentPage - 1) * pageSize;
+  // const skip = (currentPage - 1) * pageSize;
 
   const { data, isLoading, error } = trpc.getAllBooksWithAuthorAndCover.useQuery();
   if (isLoading) return <p>Loading...</p>;

@@ -1,4 +1,3 @@
-// types.ts
 export interface Book {
     book_author: {
         author_id: number | null;

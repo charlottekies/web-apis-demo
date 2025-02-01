@@ -91,12 +91,10 @@ const server = new ApolloServer({
   resolvers,
 });
 
-// Create handler for GraphQL
 const handler = startServerAndCreateNextHandler(server, {
   context: async () => ({ prisma }),
 });
 
-// Named export for HTTP methods
 export async function GET(req: NextRequest) {
   return handler(req);
 }

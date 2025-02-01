@@ -1,8 +1,7 @@
 import { FindAllBooksProps, PrismaBooks, findAllBooks, findBookById } from "../database/booksDatabase";
-import { mapPrismaBooksToBooksDTO, mapPrismaBooksToBooksWithImagesAndAuthorsDTO } from "../mappers/booksMappers";
+import { BooksDTO, BooksWithImagesAndAuthorsDTO, mapPrismaBooksToBooksDTO, mapPrismaBooksToBooksWithImagesAndAuthorsDTO } from "../mappers/booksMappers";
 
 
-export type FetchCoverImageUrlType = Awaited<ReturnType<typeof fetchCoverImageUrl>>
 
 export const getAllBooks = async (props: FindAllBooksProps) => {
   const books = await findAllBooks(props);
@@ -10,12 +9,11 @@ export const getAllBooks = async (props: FindAllBooksProps) => {
   if (props.includeImage) {
     const booksWithCoverImage = await getCoverImages(books);
     return mapPrismaBooksToBooksWithImagesAndAuthorsDTO(booksWithCoverImage);
+  } else {
+    return mapPrismaBooksToBooksDTO(books);
   }
-
-  return mapPrismaBooksToBooksDTO(books);
 };
 
-export type PrismaBooksWithCoverImage = Awaited<ReturnType<typeof getCoverImages>>
 
 export const getBookById = async ({ bookId }: { bookId: number }) => {
   return await findBookById({ bookId: bookId })
@@ -33,6 +31,8 @@ const getCoverImages = async (books: PrismaBooks) => {
   );
 };
 
+export type PrismaBooksWithCoverImage = Awaited<ReturnType<typeof getCoverImages>>
+
 interface GoogleBooksResponse {
   items?: {
     volumeInfo?: {
@@ -43,14 +43,15 @@ interface GoogleBooksResponse {
   }[];
 }
 
-export const fetchCoverImageUrl = async (isbn: string | null): Promise<string | null> => {
+export const fetchCoverImageUrl = async (isbn: string | null) => {
   try {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
     const data: GoogleBooksResponse = await response.json();
-    
+
     return data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail ?? null;
   } catch (error) {
     console.error("Error fetching cover image:", error);
     return null;
   }
 };
+export type FetchCoverImageUrlType = Awaited<ReturnType<typeof fetchCoverImageUrl>>
