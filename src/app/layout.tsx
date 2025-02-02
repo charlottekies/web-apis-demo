@@ -26,8 +26,6 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },
 });
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +33,7 @@ export default function RootLayout({
 }>) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => {setSidebarOpen(!isSidebarOpen);}
+  const toggleSidebar = () => { setSidebarOpen(!isSidebarOpen); }
 
   const url =
     process.env.NEXT_PUBLIC_APP_DOMAIN &&
@@ -65,7 +63,7 @@ export default function RootLayout({
   );
 
   const handleCloseSidebar = () => {
-    
+
     setSidebarOpen(false)
   }
 
@@ -80,16 +78,18 @@ export default function RootLayout({
               <meta name="viewport" content="initial-scale=1, width=device-width" />
             </head>
             <body className="bg-white">
-              <header className="fixed top-0 left-0 right-0 z-10 bg-white text-black p-4 shadow-md">
-                <div className="flex justify-between pr-20">
-                  <Link href="/">
+              <header className="w-full fixed top-0 right-0 z-10 bg-white text-black p-4 shadow-md">
+                <div className="flex justify-between">
+                  <Link className="" href="/">
                     <Logo />
                   </Link>
-                  <Navbar />
-                  <button hidden={isSidebarOpen} onClick={toggleSidebar} disabled={isSidebarOpen} className="w-12 lg:hidden pl-10">
+                  <div className="lg:pr-0 pr-16">
+                    <Navbar />
+                  </div>
+                  <button hidden={isSidebarOpen} onClick={toggleSidebar} disabled={isSidebarOpen} className=" lg:hidden right-4">
                     <Hamburger />
                   </button>
-                  <button hidden={!isSidebarOpen} onClick={()=>setSidebarOpen(true)} disabled={!isSidebarOpen} className=" pl-10 w-12 lg:hidden">
+                  <button hidden={!isSidebarOpen} onClick={() => setSidebarOpen(true)} disabled={!isSidebarOpen} className="lg:hidden right-4">
                     <Close />
                   </button>
                 </div>
@@ -97,7 +97,7 @@ export default function RootLayout({
 
               <div className="flex flex-row h-[100vh] border-solid border-white border">
                 <div
-                  className={`fixed inset-0 mt-10 pt-28 lg:relative lg:max-w-80 w-2/3 bg-white text-black p-6 transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                  className={`border border-solid fixed inset-0 mt-10 pt-28 lg:relative lg:max-w-80 w-2/3 bg-white text-black p-6 transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                     } lg:translate-x-0 lg:block`}
                 >
                   <Sidebar close={handleCloseSidebar} />
