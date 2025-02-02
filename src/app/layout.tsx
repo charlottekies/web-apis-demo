@@ -80,7 +80,7 @@ export default function RootLayout({
                     <Logo />
                   </Link>
                   <Navbar />
-                  <button onClick={toggleSidebar} className="lg:hidden">
+                  <button onClick={toggleSidebar} className="w-12 lg:hidden">
                     <Hamburger />
                   </button>
                 </div>

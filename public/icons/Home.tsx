@@ -1,10 +1,10 @@
 
 const Home = () => {
     return <svg xmlns="http://www.w3.org/2000/svg" 
-     width="48" 
+     width="36" 
      zoomAndPan="magnify" 
      viewBox="0 0 36 36.000001" 
-     height="48" 
+     height="36" 
      preserveAspectRatio="xMidYMid meet" 
      version="1.0">
         <defs>
