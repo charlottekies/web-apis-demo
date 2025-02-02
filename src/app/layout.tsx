@@ -94,7 +94,7 @@ export default function RootLayout({
                   <Sidebar />
                 </div>
 
-                <main className="pt-[200px] w-full max-w-7xl mx-auto">
+                <main className="pt-[130px] w-full max-w-7xl mx-auto">
                   {children}
                 </main>
               </div>
