@@ -20,6 +20,7 @@ import { getFetch, httpBatchLink, loggerLink } from "@trpc/react-query";
 import superjson from "superjson";
 import { trpc } from "../../utils/trpc";
 import Link from "next/link";
+import Close from "../../public/icons/Close";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 1000 } },
@@ -34,7 +35,7 @@ export default function RootLayout({
 }>) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => {setSidebarOpen(!isSidebarOpen);}
 
   const url =
     process.env.NEXT_PUBLIC_APP_DOMAIN &&
@@ -63,6 +64,11 @@ export default function RootLayout({
     }),
   );
 
+  const handleCloseSidebar = () => {
+    
+    setSidebarOpen(false)
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
 
@@ -80,8 +86,11 @@ export default function RootLayout({
                     <Logo />
                   </Link>
                   <Navbar />
-                  <button onClick={toggleSidebar} className="w-12 lg:hidden">
+                  <button hidden={isSidebarOpen} onClick={toggleSidebar} className="w-12 lg:hidden">
                     <Hamburger />
+                  </button>
+                  <button hidden={!isSidebarOpen} onClick={()=>setSidebarOpen(true)} disabled={!isSidebarOpen} className="w-12 lg:hidden">
+                    <Close />
                   </button>
                 </div>
               </header>
@@ -91,7 +100,7 @@ export default function RootLayout({
                   className={`fixed inset-0 mt-10 pt-28 lg:relative lg:max-w-80 w-2/3 bg-white text-black p-6 transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                     } lg:translate-x-0 lg:block`}
                 >
-                  <Sidebar />
+                  <Sidebar close={handleCloseSidebar} />
                 </div>
 
                 <main className="pt-[130px] w-full max-w-7xl mx-auto">

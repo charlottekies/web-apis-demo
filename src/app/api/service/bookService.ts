@@ -1,5 +1,5 @@
 import { FindAllBooksProps, PrismaBooks, findAllBooks, findBookById } from "../database/booksDatabase";
-import { BooksDTO, BooksWithImagesAndAuthorsDTO, mapPrismaBooksToBooksDTO, mapPrismaBooksToBooksWithImagesAndAuthorsDTO } from "../mappers/booksMappers";
+import { mapPrismaBooksToBooksDTO, mapPrismaBooksToBooksWithImagesAndAuthorsDTO } from "../mappers/booksMappers";
 
 
 
@@ -38,6 +38,7 @@ interface GoogleBooksResponse {
     volumeInfo?: {
       imageLinks?: {
         thumbnail?: string;
+        extraLarge?: string;
       };
     };
   }[];
@@ -48,7 +49,7 @@ export const fetchCoverImageUrl = async (isbn: string | null) => {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
     const data: GoogleBooksResponse = await response.json();
 
-    return data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail ?? null;
+    return data.items?.[0]?.volumeInfo?.imageLinks?.extraLarge ?? data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
   } catch (error) {
     console.error("Error fetching cover image:", error);
     return null;

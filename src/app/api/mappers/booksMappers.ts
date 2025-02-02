@@ -21,7 +21,7 @@ export const mapPrismaBooksToBooksWithImagesAndAuthorsDTO = (books: PrismaBooksW
       author_id: ba.author?.author_id || null,
       author_name: ba.author?.author_name || null,
     }))[0] || null,
-    coverImageUrl: book.coverImageUrl, // This is now resolved
+    coverImageUrl: book.coverImageUrl, 
   }));
 };
 export type BooksWithImagesAndAuthorsDTO = ReturnType<typeof mapPrismaBooksToBooksWithImagesAndAuthorsDTO>

@@ -45,8 +45,8 @@ const GraphQLBooks = () => {
   return (
     <div className="lg:px-4 px-[10%]">
       <div className="lg:flex lg:flex-row lg:w-full lg:flex-wrap gap-10">
-        {data.books.map((book: Book) => (
-          <BookCard key={book.book_id} book={book} />
+        {data.books.map((book: Book, index: number) => (
+          <BookCard key={index} book={book} />
         ))}
       </div>
 

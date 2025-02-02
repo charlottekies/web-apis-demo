@@ -1,5 +1,6 @@
 import { Book } from "@/app/types/book";
 import BookCoverPlaceholder from "../../public/icons/BookCoverPlaceholder";
+import Image from "next/image";
 
 const BookCard = ({ book }: { book: Book }) => {
   return (
@@ -13,7 +14,7 @@ const BookCard = ({ book }: { book: Book }) => {
       {book.coverImageUrl && (
 
         <div className="w-full h-[400px] xl:h-[255px] lg:h-[255px] md:h-[255px] lg:bg-gray-200 rounded-lg flex items-center justify-center">
-          <img className="h-[405px] lg:h-[255px] w-[255px] overflow-hidden" src={book.coverImageUrl} />
+          <Image width="255" height="405" className="h-[405px] lg:h-[255px] w-[255px] overflow-hidden" src={book.coverImageUrl} alt={"book cover"} />
         </div>
 
       )}
