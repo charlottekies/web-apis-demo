@@ -8,7 +8,7 @@ const Sidebar = ({ close }: { close: () => void }) => {
   useOnClickOutside(sidebarRef, close);
 
   return (
-    <div ref={sidebarRef} className="border border-solid border-red h-full space-y-6">
+    <div ref={sidebarRef} className="border border-solid h-full space-y-6">
       <h2 className="text-xl font-bold">Navigation</h2>
       <ul className="space-y-4">
         <li><Link onClick={close} href="/rest-books">REST Books</Link></li>

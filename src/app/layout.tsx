@@ -81,15 +81,15 @@ export default function RootLayout({
             </head>
             <body className="bg-white">
               <header className="fixed top-0 left-0 right-0 z-10 bg-white text-black p-4 shadow-md">
-                <div className="flex justify-between">
+                <div className="flex justify-between pr-20">
                   <Link href="/">
                     <Logo />
                   </Link>
                   <Navbar />
-                  <button hidden={isSidebarOpen} onClick={toggleSidebar} className="w-12 lg:hidden">
+                  <button hidden={isSidebarOpen} onClick={toggleSidebar} disabled={isSidebarOpen} className="w-12 lg:hidden pl-10">
                     <Hamburger />
                   </button>
-                  <button hidden={!isSidebarOpen} onClick={()=>setSidebarOpen(true)} disabled={!isSidebarOpen} className="w-12 lg:hidden">
+                  <button hidden={!isSidebarOpen} onClick={()=>setSidebarOpen(true)} disabled={!isSidebarOpen} className=" pl-10 w-12 lg:hidden">
                     <Close />
                   </button>
                 </div>
